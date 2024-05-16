@@ -14,7 +14,7 @@ public class Board {
         do {
             field = generateBoard();
         }
-        while (cellsCount() <= (int)((Size*Size)/100*20) || cellsCount() >= (int)((Size*Size)/100*60) || hasAdjacentCells(3, 3) || hasAdjacentCells(3, 0));
+        while (cellsCount() <= (int)((Size*Size)/100*20) || cellsCount() >= (int)((Size*Size)/100*60) || hasAdjacentCells(3, 3) || hasAdjacentCells(3, 0) || hasAdjacentCells(0, 0));
     }
 
     public Cell[][] getField() {
@@ -65,10 +65,24 @@ public class Board {
     }
 
     public boolean set_line(int row, int column, int line_num) {
-        if(row > size || column > size || row < 0 || column < 0){
+        if(row > size || column > size || row < 0 || column < 0 || line_num > 3 || line_num < 0){
             return false;
         }
-        if(field[row][column].set_Line(line_num)) {
+
+        if (line_num == 0 && column != 0 && field[row][column - 1].getState() == CellState.CLOSED){
+            return false;
+        }
+        else if (line_num == 1 && row != 0 && field[row - 1][column].getState() == CellState.CLOSED){
+            return false;
+        }
+        else if (line_num == 2 && column != size - 1 && field[row][column + 1].getState() == CellState.CLOSED){
+            return false;
+        }
+        else if (line_num == 3 && row != size - 1 && field[row + 1][column].getState() == CellState.CLOSED){
+            return false;
+        }
+
+        if (field[row][column].set_Line(line_num)) {
             if (line_num == 0 && column != 0)
                 field[row][column - 1].set_Line(2);
             else if (line_num == 1 && row != 0)

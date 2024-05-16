@@ -1,44 +1,45 @@
 # Gamestudio Application
 
-Gamestudio Application is a Spring Boot based game application. It includes game and allows players to post scores, ratings, and comments. Now, it has a console UI, but I'm going to implement web GUI soon.
+Gamestudio Application is a web-based game application built with Spring Boot. It includes a game called Slitherlink and allows players to post scores, rate games, and comment on games. The application features a simple user-friendly interface built with Thymeleaf, HTML, CSS, and JavaScript(Can be approved soon).
 
 ## Features
 
-- Play Slitherlink game
-- Post scores
-- Rate games
-- Comment on games
+- Play the Slitherlink game in a web browser
+- Post scores and see how you rank against other players
+- Rate games and see the average rating from all players
+- Comment on games and engage with the community
+- User registration and login functionality
 
 ## Technologies Used
 
 - Java
 - Spring Boot
+- Thymeleaf
+- HTML
+- CSS
+- JavaScript
 - JPA
 - Maven
 - PostgreSQL
 
-
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
-
 
 ### Database Setup
 
 This application uses PostgreSQL as its database. Follow these steps to set up the database:
 
 1. Install PostgreSQL if you haven't already. You can download it from [here](https://www.postgresql.org/download/).
-
 2. Create a new PostgreSQL database for the application.
-
 3. Update the `application.properties` file in the `src/main/resources` directory with your database information. Here's an example:
 
-   ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-   spring.datasource.username=your_username
-   spring.datasource.password=your_password
-   spring.jpa.hibernate.ddl-auto=update
-   
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+```
 
 ### Prerequisites
 
@@ -47,17 +48,14 @@ This application uses PostgreSQL as its database. Follow these steps to set up t
 
 ### Installation
 
-1. Clone the repo - git clone https://github.com/BerserkChmonya/gamestudio.git
-2. Navigate to the project directory - cd gamestudio
-3. Build the project - mvn clean install
-4. Run the application - mvn spring-boot:run
-
+1. Clone the repo - `git clone https://github.com/BerserkChmonya/gamestudio.git`
+2. Navigate to the project directory - `cd gamestudio`
+3. Build the project - `mvn clean install`
+4. Run the application - `mvn spring-boot:run`
 
 ## Usage
 
-After starting the application, follow the on-screen instructions to play the games and interact with the application.
-!!! Rest services are available at http://localhost:8000/api. Double check for port!!!
-
+After starting the server, open your web browser and navigate to `http://localhost:8000/` to start playing the game and interacting with the application. Gamestudio application main is for console playing.
 
 ## Slitherlink Game Rules
 

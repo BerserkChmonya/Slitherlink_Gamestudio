@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.entity.Score;
+import sk.tuke.gamestudio.entity.User;
 import sk.tuke.gamestudio.game.slitherlink.core.Board;
 import sk.tuke.gamestudio.game.slitherlink.core.Cell;
 import sk.tuke.gamestudio.game.slitherlink.core.GameState;
 import sk.tuke.gamestudio.service.CommentService;
 import sk.tuke.gamestudio.service.RatingService;
 import sk.tuke.gamestudio.service.ScoreService;
+import sk.tuke.gamestudio.service.UserService;
 
 
 import java.util.*;
@@ -21,12 +23,17 @@ public class UI {
     private RatingService ratingService;
     @Autowired
     private ScoreService scoreService;
+    @Autowired
+    private UserService userService;
+
     private Board board;
 
     Scanner scanner = new Scanner(System.in);
     public void play() {
         printLabel();
+
         String player = getPlayerName();
+
         int level = 1;
         int points = 0;
         while(true) {

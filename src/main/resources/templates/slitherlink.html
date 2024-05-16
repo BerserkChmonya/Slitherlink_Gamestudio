@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gamestudio</title>
+    <link rel="stylesheet" href="/css/stylesheet.css"/>
+    <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
+
+    <!-- Render score with JavaScript  and jQuery https://jquery.com/ -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function () {
+            $.ajax({
+                url: "/api/score/slitherlink",
+            }).done(function (json) {
+                for (var i = 0; i < json.length; i++) {
+                    var score = json[i];
+                    var date = new Date(score.playedOn);
+                    var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0') + " " + date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0') + ":" + date.getSeconds().toString().padStart(2, '0');
+                    $("#clientSideScoreTable1 tbody").append($("<tr><td class='scoreVal'>" + score.player + "<td class='scoreVal'>" + score.points + "<td class='scoreVal'>" + formattedDate + "</tr>"));
+                }
+            });
+        });
+        //]]>
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/api/comment/slitherlink",
+            }).done(function (json) {
+                for (var i = 0; i < json.length; i++) {
+                    var comment = json[i];
+                    var commentString = "~" + comment.player + ":";
+                    var date = new Date(comment.commentedOn);
+                    var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0') + " " + date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+
+                    $("#commentsSection").append($("<p>" + commentString + "</p>"));
+                    $("#commentsSection").append($("<p style='margin-left: 15px'>" + comment.comment + "</p>"));
+                    $("#commentsSection").append($("<p>" + formattedDate + "</p>"));
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#commentForm").submit(function (event) {
+                event.preventDefault();
+
+                var player = $("#username").val();
+                var comment = $("#comment").val();
+
+                var date = new Date();
+
+                $.ajax({
+                    url: "http://localhost:8000/api/comment",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        comment: comment,
+                        commentedOn: date,
+                        game: "slitherlink",
+                        player: player
+                    }),
+                    success: function () {
+                        $("#comment").val('');
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error submitting comment.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/api/rating/slitherlink",
+            }).done(function (averageRating) {
+                $("#averageRating").text("Average rating: " + averageRating +"⭐");
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let username = $("#username").val();
+
+            $.ajax({
+                url: "/api/rating/slitherlink/" + username,
+            }).done(function (userRating) {
+                if(userRating === -1) {
+                    $("#userRating").text("You don't have a rating now(");
+                } else {
+                    $("#userRating").text("Your rating: " + userRating +"⭐");
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function postRating(rating) {
+            let username = $("#username").val();
+
+            $.ajax({
+                url: "/api/rating",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    rating: rating,
+                    game: "slitherlink",
+                    player: username,
+                    ratedOn: new Date()
+                }),
+                success: function () {
+                    location.reload();
+                },
+                error: function () {
+                    alert("Error submitting rating.");
+                }
+            });
+        }
+    </script>
+
+    <!-- Render score with jQuery DataTables  https://datatables.net/ -->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
+
+    <style>
+        #clientSideScoreTable1 td, #clientSideScoreTable1 th {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="scores" type="java.util.List<sk.tuke.gamestudio.entity.Score>"*/-->
+    <!--/*@thymesVar id="userController" type="sk.tuke.gamestudio.server.controller.UserController"*/-->
+    <!--/*@thymesVar id="slitherlinkController" type="sk.tuke.gamestudio.server.controller.SlitherlinkController"*/-->
+
+    <div th:replace="~{fragments::header}"/>
+
+    <div th:if="${@userController.logged}">
+        <h1>Slitherlink</h1>
+
+        <span th:text="${message}"/><br/>
+
+        <span style="display: flex; justify-content: center">
+            Your score: <span th:text="${@slitherlinkController.points}" style="margin-right: 10px"/>
+            level: <span th:text="${@slitherlinkController.level}"/><br/>
+        </span>
+        <br/>
+        <div class="centered-content">
+            <span id="mySpan"
+                  th:style="'padding: 20px ' + (20 - (${@slitherlinkController.getSize()} - 1) * 4) + 'px ' + (20 - (${@slitherlinkController.getSize()} - 1) * 4) + 'px 20px;'"
+                  th:utext="${@slitherlinkController.getHtmlField()}"/>
+        </div>
+        <br/>
+        <span style="justify-content: center"><a href="/slitherlink/new">New Game</a><br/><br/></span>
+
+        <h2>Top Scores</h2>
+
+        <table id="clientSideScoreTable1">
+            <thead>
+            <tr>
+                <th class="scoreHead">Player</th>
+                <th class="scoreHead">Points</th>
+                <th class="scoreHead">Played at</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <h2>Give us your rate</h2>
+        <div style="text-align: center;">
+            <a href="#" onclick="postRating(1); return false;"><img src="https://freepngimg.com/save/607-gold-star-png-image/256x256" width="64" height="64" style="display: inline-block;"></a>
+            <a href="#" onclick="postRating(2); return false;"><img src="https://freepngimg.com/save/607-gold-star-png-image/256x256" width="64" height="64" style="display: inline-block;"></a>
+            <a href="#" onclick="postRating(3); return false;"><img src="https://freepngimg.com/save/607-gold-star-png-image/256x256" width="64" height="64" style="display: inline-block;"></a>
+            <a href="#" onclick="postRating(4); return false;"><img src="https://freepngimg.com/save/607-gold-star-png-image/256x256" width="64" height="64" style="display: inline-block;"></a>
+            <a href="#" onclick="postRating(5); return false;"><img src="https://freepngimg.com/save/607-gold-star-png-image/256x256" width="64" height="64" style="display: inline-block;"></a>
+        </div>
+
+        <h3>Your rating:</h3>
+        <p id="userRating"></p>
+
+        <h3>Average rating:</h3>
+        <p id="averageRating"></p>
+
+        <h2>Write comment:</h2>
+        <form id="commentForm">
+            <label for="comment" class="form-label">Comment:</label><br>
+            <textarea id="comment" name="comment" maxlength="1000" class="form-control"></textarea><br>
+            <input type="hidden" id="username" th:value="${@userController.loggedUser.getUsername()}"/>
+            <input type="submit" value="Submit">
+        </form>
+
+        <h2>Comments</h2>
+        <div id="commentsSection"></div>
+
+        <div th:replace="~{fragments::footer}"/>
+    </div>
+
+    <div th:unless="${@userController.logged}">
+        <p>You must authorize!</p>
+    </div>
+
+</body>
+</html>

@@ -8,6 +8,7 @@ import sk.tuke.gamestudio.entity.Comment;
 import sk.tuke.gamestudio.service.CommentException;
 import sk.tuke.gamestudio.service.CommentService;
 
+import java.util.Collections;
 import java.util.List;
 @Service
 @Transactional
@@ -18,13 +19,17 @@ public class CommentServiceJPA implements CommentService {
 
     @Override
     public void addComment(Comment comment) throws CommentException {
+        if (comment == null || comment.getComment().isEmpty()) return;
+
         entityManager.persist(comment);
     }
 
     @Override
     public List<Comment> getComments(String game) throws CommentException {
-        return entityManager.createNamedQuery("Comment.getComments", Comment.class)
+        List<Comment> comments = entityManager.createNamedQuery("Comment.getComments", Comment.class)
                 .setParameter("game", game).getResultList();
+        Collections.reverse(comments);
+        return comments;
     }
 
     @Override

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gamestudio</title>
+    <link rel="stylesheet" href="/css/stylesheet.css"/>
+    <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="fragments::header"/>
+        <h2>Welcome to Gamestudio!</h2>
+        <p>Select a game to play:</p>
+        <ul>
+            <li><a href="/slitherlink">Slitherlink</a></li>
+        </ul>
+    <div th:replace="fragments::footer"/>
+</body>
+</html>

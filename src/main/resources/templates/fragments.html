@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>fragments</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
+</head>
+<!--/*@thymesVar id="userController" type="sk.tuke.gamestudio.server.controller.UserController"*/-->
+<body>
+<div th:fragment="header">
+    <h1>Welcome to <a href="/">Gamestudio!</a></h1>
+
+    <span th:if="${@userController.loggedUser != null && !@userController.isLogged()}">
+        Logged as: <span th:text="${@userController.loggedUser.username}"/>
+    </span>
+    <a href="/logout">Logout</a><br/><br/>
+
+    <span th:if="${@userController.isLogged()}">
+        You are logged as: <span th:text="${@userController.loggedUser.getUsername()}"/>
+    </span>
+
+    <span th:if="not ${@userController.logged}">
+        Not logged. Please
+        <a href="/">login or register</a>.<br/>
+
+        <div class="form-container" style="display: flex; justify-content: center;">
+        <!-- Login form -->
+            <form action="/login" method="post" class="form-signin" id="form-login">
+                <h3 class="h3 mb-3 font-weight-normal">Login</h3>
+                <label for="login" class="sr-only">Username:</label>
+                <input type="text" id="login" name="login" class="form-control" placeholder="Username" required autofocus>
+                <label for="password" class="sr-only">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+            </form>
+
+            <!-- Registration form -->
+            <form action="/register" method="post" class="form-signin" id="form-register">
+                <h3 class="h3 mb-3 font-weight-normal">Register</h3>
+                <label for="newLogin" class="sr-only">Username:</label>
+                <input type="text" id="newLogin" name="newLogin" class="form-control" placeholder="Username" required autofocus>
+                <label for="newPassword" class="sr-only">Password:</label>
+                <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            </form>
+        </div>
+    </span>
+
+    <span th:if="${error}" th:text="${error}"></span>
+</div>
+
+<div th:fragment="footer">
+    <hr/>
+    This is gamestudio!<br/>
+</div>
+</body>
+</html>

@@ -14,6 +14,7 @@ import sk.tuke.gamestudio.service.*;
 import sk.tuke.gamestudio.service.RestService.CommentServiceRestClient;
 import sk.tuke.gamestudio.service.RestService.RatingServiceRestClient;
 import sk.tuke.gamestudio.service.RestService.ScoreServiceRestClient;
+import sk.tuke.gamestudio.service.RestService.UserServiceRestClient;
 
 @SpringBootApplication
 @Configuration
@@ -47,5 +48,9 @@ public class GamestudioApplication {
     @Bean
     public RatingService ratingService() {
         return new RatingServiceRestClient();
+    }
+    @Bean
+    public UserService userService() {
+        return new UserServiceRestClient();
     }
 }

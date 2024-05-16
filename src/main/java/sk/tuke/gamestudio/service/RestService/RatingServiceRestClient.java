@@ -1,11 +1,12 @@
 package sk.tuke.gamestudio.service.RestService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import sk.tuke.gamestudio.entity.Rating;
 import sk.tuke.gamestudio.service.RatingService;
 
-
+@Service
 public class RatingServiceRestClient implements RatingService {
     private final String url = "http://localhost:8000/api/rating";
 
