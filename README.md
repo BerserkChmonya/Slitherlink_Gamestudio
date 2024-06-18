@@ -63,7 +63,7 @@ Slitherlink is a logic puzzle game. The game is played on a rectangular grid of 
 
 The objective of the game is to connect horizontally and vertically adjacent dots so that the lines form a single loop with no loose ends. In addition, the number inside a square represents how many of its four sides are segments in the loop.
 
-Here are the detailed rules:
+All in all:
 
 1. Connect adjacent dots with vertical or horizontal lines to make a single loop.
 2. The numbers indicate how many lines surround it, while empty cells may be surrounded by any number of lines.
