@@ -1,6 +1,6 @@
 # Gamestudio Application
 
-Gamestudio Application is a web-based game application built with Spring Boot. It includes a game called Slitherlink and allows players to post scores, rate games, and comment on games. The application features a simple user-friendly interface built with Thymeleaf, HTML, CSS, and JavaScript(Can be approved soon).
+Gamestudio Application is a web-based game application built with Spring Boot. It includes a game called Slitherlink and allows players to post scores, rate games, and comment on games. The application features a simple user-friendly interface built with Thymeleaf, HTML, CSS, and JavaScript.
 
 ## Features
 
